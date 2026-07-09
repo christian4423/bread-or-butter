@@ -102,16 +102,21 @@ struct ContentView: View {
         let fatPct = Int((fuel.fatFraction * 100).rounded())
         let carbPct = 100 - fatPct
 
-        return VStack(spacing: 10) {
+        return VStack(spacing: 8) {
             Spacer(minLength: 0)
 
-            HStack(alignment: .center, spacing: 14) {
-                emoji("🧈", label: "\(fatPct)%", fraction: fuel.fatFraction)
-                emoji("🍞", label: "\(carbPct)%", fraction: fuel.carbFraction)
-            }
-            .animation(.spring(response: 0.55, dampingFraction: 0.8), value: fuel.fatFraction)
+            FuelRatioBar(fatFraction: fuel.fatFraction)
+                .frame(height: 58)
+                .animation(.spring(response: 0.55, dampingFraction: 0.8), value: fuel.fatFraction)
 
-            VStack(spacing: 2) {
+            HStack(alignment: .firstTextBaseline) {
+                percentLabel(pct: fatPct, name: "fat", tint: .yellow)
+                Spacer(minLength: 0)
+                percentLabel(pct: carbPct, name: "carbs", tint: .orange)
+            }
+            .padding(.horizontal, 6)
+
+            VStack(spacing: 1) {
                 if let bpm = health.heartRate {
                     Text("\(Int(bpm.rounded())) BPM · Zone \(zone ?? 1)")
                         .font(.footnote.weight(.medium))
@@ -126,24 +131,24 @@ struct ContentView: View {
         .padding(.horizontal, 4)
     }
 
-    private func emoji(_ symbol: String, label: String, fraction: Double) -> some View {
-        VStack(spacing: 4) {
-            Text(symbol)
-                .font(.system(size: 24 + fraction * 44))
-            Text(label)
-                .font(.caption2.weight(.semibold))
+    private func percentLabel(pct: Int, name: String, tint: Color) -> some View {
+        VStack(spacing: 0) {
+            Text("\(pct)%")
+                .font(.headline)
                 .monospacedDigit()
+                .foregroundStyle(tint)
+            Text(name)
+                .font(.system(size: 10))
                 .foregroundStyle(.secondary)
         }
-        .frame(maxWidth: .infinity)
     }
 
     private var hintView: some View {
         VStack(spacing: 10) {
-            HStack(spacing: 10) {
-                Text("🧈").font(.system(size: 34)).opacity(0.35)
-                Text("🍞").font(.system(size: 34)).opacity(0.35)
-            }
+            FuelRatioBar(fatFraction: 0.5)
+                .frame(height: 44)
+                .opacity(0.3)
+                .padding(.horizontal, 8)
             Text("Start a workout for live HR")
                 .font(.footnote)
                 .multilineTextAlignment(.center)
