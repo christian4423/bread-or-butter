@@ -27,7 +27,7 @@ private struct ButterIcon: View {
             let lw = h * 0.08
 
             let stick = CGRect(x: w * 0.02, y: h * 0.24, width: w * 0.96, height: h * 0.52)
-            let stickPath = Path(roundedRect: stick, cornerRadius: h * 0.26)
+            let stickPath = Path(roundedRect: stick, cornerRadius: h * 0.11)
             ctx.fill(stickPath, with: .color(.butterFill))
             ctx.stroke(stickPath, with: .color(.butterStroke), lineWidth: lw)
 
@@ -54,13 +54,8 @@ private struct BaguetteIcon: View {
             let w = size.width, h = size.height
             let lw = h * 0.08
 
-            var body = Path()
-            body.move(to: CGPoint(x: w * 0.01, y: h * 0.30))
-            body.addQuadCurve(to: CGPoint(x: w * 0.99, y: h * 0.50),
-                              control: CGPoint(x: w * 0.55, y: h * 0.12))
-            body.addQuadCurve(to: CGPoint(x: w * 0.01, y: h * 0.70),
-                              control: CGPoint(x: w * 0.55, y: h * 0.88))
-            body.closeSubpath()
+            let loaf = CGRect(x: w * 0.01, y: h * 0.22, width: w * 0.98, height: h * 0.56)
+            let body = Path(roundedRect: loaf, cornerRadius: h * 0.28)
             ctx.fill(body, with: .color(.breadFill))
             ctx.stroke(body, with: .color(.breadStroke),
                        style: StrokeStyle(lineWidth: lw, lineJoin: .round))
