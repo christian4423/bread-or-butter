@@ -23,14 +23,14 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle("Enabled", isOn: $adderallEnabled)
+                Toggle("Adderall mode", isOn: $adderallEnabled)
                 if adderallEnabled {
                     Stepper(value: $adderallOffset, in: 0...25, step: 1) {
-                        Text("Offset −\(Int(adderallOffset)) bpm")
+                        stepperLabel("Offset", value: "\(Int(adderallOffset)) bpm")
                     }
                 }
             } header: {
-                Text("💊 Adderall Mode")
+                Text("💊 Medication")
             } footer: {
                 Text("Subtracts the offset from measured HR so zones reflect true effort, not med-elevated heart rate.")
             }
@@ -39,12 +39,10 @@ struct SettingsView: View {
                 Toggle("Override", isOn: $ageOverrideEnabled)
                 if ageOverrideEnabled {
                     Stepper(value: $ageOverride, in: 10...100, step: 1) {
-                        Text("\(Int(ageOverride)) yrs")
+                        stepperLabel("Age", value: "\(Int(ageOverride)) yrs")
                     }
                 } else {
-                    Text(health.age.map { "HealthKit: \($0) yrs" } ?? "HealthKit: unavailable")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                    autoLabel(health.age.map { "HealthKit: \($0) yrs" } ?? "HealthKit: unavailable")
                 }
             } header: {
                 Text("Age")
@@ -52,33 +50,52 @@ struct SettingsView: View {
                 Text("Used to estimate max HR as 220 − age.")
             }
 
-            Section("Max Heart Rate") {
+            Section("Max heart rate") {
                 Toggle("Override", isOn: $maxHROverrideEnabled)
                 if maxHROverrideEnabled {
                     Stepper(value: $maxHROverride, in: 120...220, step: 1) {
-                        Text("\(Int(maxHROverride)) bpm")
+                        stepperLabel("Max HR", value: "\(Int(maxHROverride)) bpm")
                     }
                 } else {
-                    Text("Auto: \(autoMaxHR) bpm")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                    autoLabel("Auto: \(autoMaxHR) bpm")
                 }
             }
 
-            Section("Resting Heart Rate") {
+            Section("Resting heart rate") {
                 Toggle("Override", isOn: $restingHROverrideEnabled)
                 if restingHROverrideEnabled {
                     Stepper(value: $restingHROverride, in: 30...120, step: 1) {
-                        Text("\(Int(restingHROverride)) bpm")
+                        stepperLabel("Resting", value: "\(Int(restingHROverride)) bpm")
                     }
                 } else {
-                    Text(health.restingHeartRate.map { "HealthKit: \(Int($0)) bpm" } ?? "Default: \(Int(SettingsDefault.fallbackRestingHR)) bpm")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                    autoLabel(health.restingHeartRate.map { "HealthKit: \(Int($0)) bpm" } ?? "Default: \(Int(SettingsDefault.fallbackRestingHR)) bpm")
                 }
             }
         }
         .navigationTitle("Settings")
+    }
+
+    /// Compact two-part label for a Stepper: name on the left, value on the
+    /// right, both kept to a single line so they never wrap beside the −/+ keys.
+    private func stepperLabel(_ name: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(name)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.footnote.weight(.semibold))
+                .monospacedDigit()
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.7)
+    }
+
+    private func autoLabel(_ text: String) -> some View {
+        Text(text)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
     }
 
     private var autoMaxHR: Int {
