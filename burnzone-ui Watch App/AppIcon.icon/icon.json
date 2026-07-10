@@ -1,0 +1,71 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "3-knife.svg",
+          "name" : "3-knife"
+        },
+        {
+          "blend-mode" : "hard-light",
+          "glass" : true,
+          "image-name" : "2-marks.svg",
+          "name" : "2-marks",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              15.4609375,
+              -104.3125
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "linear-gradient" : [
+              "display-p3:1.00000,0.98942,0.55589,1.00000",
+              "display-p3:1.00170,0.71156,0.39110,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0.47376708984375,
+                "y" : 0.5
+              },
+              "stop" : {
+                "x" : 0.52877197265625,
+                "y" : 0.5
+              }
+            }
+          },
+          "glass" : false,
+          "image-name" : "1-background.svg",
+          "name" : "1-background",
+          "position" : {
+            "scale" : 1.07,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
