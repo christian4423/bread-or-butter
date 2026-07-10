@@ -71,6 +71,14 @@ struct SettingsView: View {
                     autoLabel(health.restingHeartRate.map { "HealthKit: \(Int($0)) bpm" } ?? "Default: \(Int(SettingsDefault.fallbackRestingHR)) bpm")
                 }
             }
+
+            Section {
+                Text("Watch keeps jumping back to the Workout app? On the watch, open Settings › General › Return to Clock › Workout and turn off “Return to App”.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } header: {
+                Text("Tip")
+            }
         }
         .navigationTitle("Settings")
     }
