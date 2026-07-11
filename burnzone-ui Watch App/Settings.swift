@@ -16,15 +16,16 @@ enum SettingsKey {
     static let restingHROverride = "restingHROverride"
     static let ageOverrideEnabled = "ageOverrideEnabled"
     static let ageOverride = "ageOverride"
-    static let adderallEnabled = "adderallEnabled"
-    static let adderallOffset = "adderallOffset"
+    // Key strings are kept as-is so an existing setting on the watch isn't reset.
+    static let medOffsetEnabled = "adderallEnabled"
+    static let medOffset = "adderallOffset"
 }
 
 enum SettingsDefault {
     static let maxHROverride: Double = 190
     static let restingHROverride: Double = 60
     static let ageOverride: Double = 30
-    static let adderallOffset: Double = 10
+    static let medOffset: Double = 10
 
     /// Fallbacks when neither an override nor HealthKit data is available.
     static let fallbackAge = 30

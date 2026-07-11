@@ -17,22 +17,22 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.restingHROverride) private var restingHROverride = SettingsDefault.restingHROverride
     @AppStorage(SettingsKey.ageOverrideEnabled) private var ageOverrideEnabled = false
     @AppStorage(SettingsKey.ageOverride) private var ageOverride = SettingsDefault.ageOverride
-    @AppStorage(SettingsKey.adderallEnabled) private var adderallEnabled = false
-    @AppStorage(SettingsKey.adderallOffset) private var adderallOffset = SettingsDefault.adderallOffset
+    @AppStorage(SettingsKey.medOffsetEnabled) private var medOffsetEnabled = false
+    @AppStorage(SettingsKey.medOffset) private var medOffset = SettingsDefault.medOffset
 
     var body: some View {
         Form {
             Section {
-                Toggle("Adderall mode", isOn: $adderallEnabled)
-                if adderallEnabled {
-                    Stepper(value: $adderallOffset, in: 0...25, step: 1) {
-                        stepperLabel("Offset", value: "\(Int(adderallOffset)) bpm")
+                Toggle("Stimulant offset", isOn: $medOffsetEnabled)
+                if medOffsetEnabled {
+                    Stepper(value: $medOffset, in: 0...25, step: 1) {
+                        stepperLabel("Offset", value: "\(Int(medOffset)) bpm")
                     }
                 }
             } header: {
                 Text("💊 Medication")
             } footer: {
-                Text("Subtracts the offset from measured HR so zones reflect true effort, not med-elevated heart rate.")
+                Text("Some stimulant medications raise heart rate. Subtracting an offset keeps your zones based on true effort.")
             }
 
             Section {

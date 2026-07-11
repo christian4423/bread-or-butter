@@ -18,8 +18,8 @@ struct ContentView: View {
     @AppStorage(SettingsKey.restingHROverride) private var restingHROverride = SettingsDefault.restingHROverride
     @AppStorage(SettingsKey.ageOverrideEnabled) private var ageOverrideEnabled = false
     @AppStorage(SettingsKey.ageOverride) private var ageOverride = SettingsDefault.ageOverride
-    @AppStorage(SettingsKey.adderallEnabled) private var adderallEnabled = false
-    @AppStorage(SettingsKey.adderallOffset) private var adderallOffset = SettingsDefault.adderallOffset
+    @AppStorage(SettingsKey.medOffsetEnabled) private var medOffsetEnabled = false
+    @AppStorage(SettingsKey.medOffset) private var medOffset = SettingsDefault.medOffset
 
     @State private var now = Date()
     private let ticker = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
@@ -45,8 +45,8 @@ struct ContentView: View {
     /// True effort HR: subtract the med offset so the intensity reflects real work.
     private var effortHR: Double? {
         guard let raw = health.heartRate else { return nil }
-        guard adderallEnabled else { return raw }
-        return max(physiology.restingHR, raw - adderallOffset)
+        guard medOffsetEnabled else { return raw }
+        return max(physiology.restingHR, raw - medOffset)
     }
 
     private var fuel: FuelSplit? {
@@ -79,7 +79,7 @@ struct ContentView: View {
             .navigationTitle("")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    if adderallEnabled {
+                    if medOffsetEnabled {
                         Text("💊").font(.footnote)
                     }
                 }
@@ -144,16 +144,16 @@ struct ContentView: View {
     }
 
     private var hintView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             FuelRatioBar(fatFraction: 0.5)
-                .frame(height: 44)
+                .frame(height: 40)
                 .opacity(0.3)
-                .padding(.horizontal, 8)
-            Text("Start a workout for live HR")
-                .font(.footnote)
+                .padding(.horizontal, 10)
+            Text("Live fat vs. carb burn, read from your heart rate.")
+                .font(.system(size: 12))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
-            Text("Open Apple's Workout app so heart rate keeps flowing.")
+            Text("Start a workout in Apple's Workout app to see it.")
                 .font(.system(size: 10))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.tertiary)
