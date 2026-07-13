@@ -8,25 +8,25 @@ the rest as a checklist.
 > Bread & Butter is a watchOS‑only app. It reads heart rate from Apple Health
 > and shows an estimated fat‑vs‑carbohydrate fuel split and heart‑rate zone.
 >
-> IMPORTANT — how to see the main screen: the live view only appears while
-> heart‑rate samples are arriving. By design the app does NOT start its own
-> workout session (to avoid conflicting with Apple's Workout app). To test:
+> To test on a real Apple Watch:
 >
-> 1. Launch Bread & Butter and grant the Health permission prompt (heart rate,
->    resting heart rate, date of birth — read only).
-> 2. On the watch, open Apple's Workout app and start any workout (e.g. Outdoor
->    Walk). This makes the watch record heart rate.
-> 3. Return to Bread & Butter. Within a few seconds the butter/baguette bar,
->    percentages, BPM, and zone appear and update live.
+> 1. Launch Bread & Butter and allow the Health permission prompt.
+> 2. Wear the watch. Within a few seconds the app starts a heart‑rate session,
+>    and the butter/baguette bar, percentages, BPM, and zone appear and update
+>    live. (If Apple's Workout app is already running a workout, the app uses
+>    those readings instead of starting its own session.)
 >
-> Without an active workout the app shows an explainer telling the user to start
-> one — this is expected, not a bug.
->
-> The app is entirely on‑device: read‑only HealthKit access, no network, no
-> account, no analytics. The optional "Stimulant offset" in Settings simply
-> subtracts a user‑chosen bpm value before computing the zone; it is a display
-> adjustment, not medical functionality. All figures are labeled estimates and
-> are not medical advice.
+> Notes for review:
+> - Live heart rate requires the watch's sensor, which only streams during a
+>   session, so the app starts a lightweight HealthKit workout session while it
+>   is open. That session is DISCARDED when the app is backgrounded — it is not
+>   saved as a workout and does not appear in Fitness or Activity.
+> - This cannot be exercised in the Simulator (no live heart rate); please test
+>   on a physical Apple Watch.
+> - The app is on‑device only: no network, no account, no analytics. The optional
+>   "Stimulant offset" in Settings simply subtracts a user‑chosen bpm value before
+>   computing the zone; it is a display adjustment, not medical functionality.
+>   All figures are labeled estimates and are not medical advice.
 
 ## Privacy details ("nutrition label") — suggested answers
 
@@ -40,8 +40,11 @@ so, mark it Not Linked to the user and Not Used for Tracking.)
 
 ## HealthKit specifics
 
-- Read‑only types: `heartRate`, `restingHeartRate`, `dateOfBirth`. No write access.
-- Usage string (already set): NSHealthShareUsageDescription explains why each is read.
+- Read types: `heartRate`, `restingHeartRate`, `dateOfBirth`.
+- Share types: `workoutType`, `heartRate` — needed to run the live heart‑rate
+  session. The session is discarded, so no workout is saved.
+- Usage strings (already set): `NSHealthShareUsageDescription` (why data is read)
+  and `NSHealthUpdateUsageDescription` (why a session is started).
 - Entitlement: `com.apple.developer.healthkit` (+ background‑delivery). No
   Clinical Health Records.
 

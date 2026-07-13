@@ -22,6 +22,7 @@ struct ContentView: View {
     @AppStorage(SettingsKey.medOffset) private var medOffset = SettingsDefault.medOffset
 
     @State private var now = Date()
+    @Environment(\.scenePhase) private var scenePhase
     private let ticker = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
 
     // MARK: - Derived values
@@ -93,6 +94,13 @@ struct ContentView: View {
             }
         }
         .onAppear { health.requestAuthorization() }
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .active: health.onBecameActive()
+            case .background: health.onResignedActive()
+            default: break
+            }
+        }
         .onReceive(ticker) { now = $0 }
     }
 
