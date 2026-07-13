@@ -28,7 +28,7 @@ struct SettingsView: View {
             } header: {
                 Text("Heart rate")
             } footer: {
-                Text("Starts a heart-rate session so the app works without a workout running. Uses more battery. Defers to Apple's Workout app when it's active.")
+                Text("Starts a heart-rate session so the app works without a workout running. Because it's a session, it adds exercise minutes and calories to your Activity rings. Defers to Apple's Workout app when it's active.")
             }
 
             Section {

@@ -24,8 +24,9 @@ the rest as a checklist.
 >   session. By default the app is a companion that reads an existing workout's
 >   HR. The optional "Live HR when open" setting starts a lightweight HealthKit
 >   workout session; that session is DISCARDED when the app is backgrounded — it
->   is not saved as a workout and does not appear in Fitness or Activity. Write
->   access is requested only when that setting is enabled.
+>   is not saved as a workout and does not appear in Fitness. (Like any workout
+>   session, it does contribute exercise minutes and energy to Activity rings
+>   while active.) Write access is requested only when that setting is enabled.
 > - The app is on‑device only: no network, no account, no analytics. The optional
 >   "Stimulant offset" in Settings simply subtracts a user‑chosen bpm value before
 >   computing the zone; it is a display adjustment, not medical functionality.

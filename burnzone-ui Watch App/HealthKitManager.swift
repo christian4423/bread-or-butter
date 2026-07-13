@@ -73,8 +73,8 @@ final class HealthKitManager: NSObject, ObservableObject {
             HKCharacteristicType(.dateOfBirth),
         ]
         healthStore.requestAuthorization(toShare: [], read: toRead) { [weak self] success, _ in
+            guard let self else { return }
             Task { @MainActor in
-                guard let self else { return }
                 self.authorizationRequested = true
                 guard success else { return }
                 self.isReady = true
@@ -148,9 +148,9 @@ final class HealthKitManager: NSObject, ObservableObject {
             limit: 1,
             sortDescriptors: [sort]
         ) { [weak self] _, samples, _ in
-            guard let sample = samples?.first as? HKQuantitySample else { return }
+            guard let self, let sample = samples?.first as? HKQuantitySample else { return }
             let bpm = sample.quantity.doubleValue(for: unit)
-            Task { @MainActor in self?.restingHeartRate = bpm }
+            Task { @MainActor in self.restingHeartRate = bpm }
         }
         healthStore.execute(query)
     }
@@ -172,13 +172,14 @@ final class HealthKitManager: NSObject, ObservableObject {
         // Extract only Sendable values (Double/Date) before hopping to the main
         // actor — HKSample/HKQueryAnchor are not Sendable.
         let handler: @Sendable (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = { [weak self] _, samples, _, _, _ in
+            guard let self else { return }
             let latest = samples?
                 .compactMap { $0 as? HKQuantitySample }
                 .max(by: { $0.endDate < $1.endDate })
             guard let latest else { return }
             let bpm = latest.quantity.doubleValue(for: unit)
             let date = latest.endDate
-            Task { @MainActor in self?.ingest(bpm: bpm, date: date) }
+            Task { @MainActor in self.ingest(bpm: bpm, date: date) }
         }
 
         let query = HKAnchoredObjectQuery(
@@ -208,10 +209,8 @@ final class HealthKitManager: NSObject, ObservableObject {
         // mode are never prompted for write access.
         let share: Set<HKSampleType> = [HKQuantityType.workoutType(), heartRateType]
         healthStore.requestAuthorization(toShare: share, read: []) { [weak self] success, _ in
-            Task { @MainActor in
-                guard let self, success else { return }
-                self.beginOwnSession()
-            }
+            guard let self, success else { return }
+            Task { @MainActor in self.beginOwnSession() }
         }
     }
 
