@@ -1,32 +1,32 @@
-# App Store listing copy — B&B Ratio
+# App Store listing copy — Bread or Butter
 
 Copy-paste into App Store Connect. Character limits noted; App Store Connect
 enforces them.
 
-## Name (max 30) — must be unique in App Store Connect
-B&B Ratio
+## Name (max 30)
+Bread or Butter
 
 ## Subtitle (max 30)
 Your fat-vs-carb fuel gauge
 
 ## Promotional text (max 170 — editable anytime without review)
-See whether you're burning butter or bread. B&B Ratio turns your live heart rate
-into a playful fat-vs-carb fuel gauge on your wrist — ease off for butter, push
-hard for bread.
+Bread or butter — which are you burning? This watch app turns your live heart
+rate into a playful fat-vs-carb fuel gauge. Ease off for butter, push hard for
+bread.
 
 ## Keywords (max 100, comma-separated, no spaces needed)
 heart rate,fat burn,carbs,fuel,zone,cardio,workout,burn,butter,bread,HRR,fitness
 
 ## Description (max 4000)
-Butter or bread? See what your body is burning.
+Bread or butter — what is your body burning right now?
 
-B&B Ratio turns your live heart rate into a cute, glanceable fuel gauge: a stick
-of butter (fat) and a French baguette (carbs) meet at a sliding divider that
-shows your estimated fat-vs-carb mix as you move. Ease off and the butter grows;
-push harder and the bread takes over.
+Bread or Butter turns your live heart rate into a cute, glanceable fuel gauge: a
+stick of butter (fat) and a French baguette (carbs) meet at a sliding divider
+that shows your estimated fat-vs-carb mix as you move. Ease off and the butter
+grows; push harder and the bread takes over.
 
 HOW IT WORKS
-• Start a workout in Apple's Workout app, then open B&B Ratio.
+• Start a workout in Apple's Workout app, then open Bread or Butter.
 • It reads your live heart rate and maps your intensity to an estimated fat/carb
   split using the classic "crossover" curve.
 • See your current BPM and heart-rate zone (1–5), based on your heart-rate
@@ -41,16 +41,10 @@ FEATURES
 • Private by design: everything stays on your Apple Watch. No account, no
   tracking, no ads.
 
-B&B Ratio is made for curiosity and motivation — not medical use. The fat/carb
-split and heart-rate zones are ballpark, textbook estimates, not measurements or
-medical advice.
+Bread or Butter is made for curiosity and motivation — not medical use. The
+fat/carb split and heart-rate zones are ballpark, textbook estimates, not
+measurements or medical advice.
 
 ## What's New (first release)
 First release. See your live fat-vs-carb fuel mix, heart-rate zone, and BPM while
 you work out — as a cute butter-and-baguette gauge on your wrist.
-
-## Alternate name options (if "B&B Ratio" is taken)
-- B&B Ratio: Fuel Mix
-- Butter or Bread
-- Fuel Mix: B&B Ratio
-- BnB Ratio

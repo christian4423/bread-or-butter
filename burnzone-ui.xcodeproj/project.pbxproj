@@ -396,7 +396,7 @@
 				DEVELOPMENT_TEAM = 442ZGJTQRG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "B&B Ratio";
+				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Butter vs. Bread reads your heart rate, resting heart rate, and date of birth to estimate your heart-rate zones and fat/carb fuel mix.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -431,7 +431,7 @@
 				DEVELOPMENT_TEAM = 442ZGJTQRG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "B&B Ratio";
+				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Butter vs. Bread reads your heart rate, resting heart rate, and date of birth to estimate your heart-rate zones and fat/carb fuel mix.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
