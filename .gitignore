@@ -1,0 +1,11 @@
+# App Store Connect API keys / secrets — never commit these
+*.p8
+docs/*.p8
+docs/issue-key-id.json
+docs/issuer-key-id.json
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
