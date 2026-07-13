@@ -8,21 +8,24 @@ the rest as a checklist.
 > Bread & Butter is a watchOS‑only app. It reads heart rate from Apple Health
 > and shows an estimated fat‑vs‑carbohydrate fuel split and heart‑rate zone.
 >
-> To test on a real Apple Watch:
+> To test on a real Apple Watch (live heart rate is not available in the
+> Simulator — please use a physical device):
 >
 > 1. Launch Bread & Butter and allow the Health permission prompt.
-> 2. Wear the watch. Within a few seconds the app starts a heart‑rate session,
->    and the butter/baguette bar, percentages, BPM, and zone appear and update
->    live. (If Apple's Workout app is already running a workout, the app uses
->    those readings instead of starting its own session.)
+> 2. To see live data, EITHER:
+>    a. Start any workout in Apple's Workout app (the app reads those HR
+>       samples), OR
+>    b. In the app's Settings, turn on "Live HR when open" — the app then starts
+>       its own lightweight heart‑rate session so it works without a workout.
+> 3. The butter/baguette bar, percentages, BPM, and zone appear and update live.
 >
 > Notes for review:
 > - Live heart rate requires the watch's sensor, which only streams during a
->   session, so the app starts a lightweight HealthKit workout session while it
->   is open. That session is DISCARDED when the app is backgrounded — it is not
->   saved as a workout and does not appear in Fitness or Activity.
-> - This cannot be exercised in the Simulator (no live heart rate); please test
->   on a physical Apple Watch.
+>   session. By default the app is a companion that reads an existing workout's
+>   HR. The optional "Live HR when open" setting starts a lightweight HealthKit
+>   workout session; that session is DISCARDED when the app is backgrounded — it
+>   is not saved as a workout and does not appear in Fitness or Activity. Write
+>   access is requested only when that setting is enabled.
 > - The app is on‑device only: no network, no account, no analytics. The optional
 >   "Stimulant offset" in Settings simply subtracts a user‑chosen bpm value before
 >   computing the zone; it is a display adjustment, not medical functionality.
@@ -41,8 +44,8 @@ so, mark it Not Linked to the user and Not Used for Tracking.)
 ## HealthKit specifics
 
 - Read types: `heartRate`, `restingHeartRate`, `dateOfBirth`.
-- Share types: `workoutType`, `heartRate` — needed to run the live heart‑rate
-  session. The session is discarded, so no workout is saved.
+- Share types: `workoutType`, `heartRate` — requested lazily, only if the user
+  enables "Live HR when open", to run the discarded session. No workout is saved.
 - Usage strings (already set): `NSHealthShareUsageDescription` (why data is read)
   and `NSHealthUpdateUsageDescription` (why a session is started).
 - Entitlement: `com.apple.developer.healthkit` (+ background‑delivery). No
@@ -61,7 +64,12 @@ so, mark it Not Linked to the user and Not Used for Tracking.)
       distribute to App Store Connect. Consider a TestFlight pass first.
 - [ ] Fill in the review notes above so the reviewer starts a workout.
 
-## Nice-to-have before 1.0 (not blockers)
+## v2 ideas (not blockers)
 
-- v2 style: dripping‑butter effect at high fat, animated steam on the bread at
+- Style: dripping‑butter effect at high fat, animated steam on the bread at
   high carbs.
+- Direct Bluetooth (BLE) heart-rate straps: connect to a Polar H10 (or any
+  standard BLE HR strap) directly via CoreBluetooth, reading the Heart Rate
+  Measurement characteristic. Shows the strap's HR instantly on open — no
+  session, no wrist-sensor fallback, less battery — even if the strap isn't
+  paired to the watch.

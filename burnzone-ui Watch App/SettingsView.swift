@@ -19,9 +19,18 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.ageOverride) private var ageOverride = SettingsDefault.ageOverride
     @AppStorage(SettingsKey.medOffsetEnabled) private var medOffsetEnabled = false
     @AppStorage(SettingsKey.medOffset) private var medOffset = SettingsDefault.medOffset
+    @AppStorage(SettingsKey.standaloneHR) private var standaloneHR = false
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Live HR when open", isOn: $standaloneHR)
+            } header: {
+                Text("Heart rate")
+            } footer: {
+                Text("Starts a heart-rate session so the app works without a workout running. Uses more battery. Defers to Apple's Workout app when it's active.")
+            }
+
             Section {
                 Toggle("Stimulant offset", isOn: $medOffsetEnabled)
                 if medOffsetEnabled {

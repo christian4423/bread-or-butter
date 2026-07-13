@@ -19,6 +19,8 @@ enum SettingsKey {
     // Key strings are kept as-is so an existing setting on the watch isn't reset.
     static let medOffsetEnabled = "adderallEnabled"
     static let medOffset = "adderallOffset"
+    /// Opt-in: start our own HR session so the app works without an active workout.
+    static let standaloneHR = "standaloneHR"
 }
 
 enum SettingsDefault {

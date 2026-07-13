@@ -20,6 +20,7 @@ struct ContentView: View {
     @AppStorage(SettingsKey.ageOverride) private var ageOverride = SettingsDefault.ageOverride
     @AppStorage(SettingsKey.medOffsetEnabled) private var medOffsetEnabled = false
     @AppStorage(SettingsKey.medOffset) private var medOffset = SettingsDefault.medOffset
+    @AppStorage(SettingsKey.standaloneHR) private var standaloneHR = false
 
     @State private var now = Date()
     @Environment(\.scenePhase) private var scenePhase
@@ -96,10 +97,13 @@ struct ContentView: View {
         .onAppear { health.requestAuthorization() }
         .onChange(of: scenePhase) { _, phase in
             switch phase {
-            case .active: health.onBecameActive()
+            case .active: health.onBecameActive(standalone: standaloneHR)
             case .background: health.onResignedActive()
             default: break
             }
+        }
+        .onChange(of: standaloneHR) { _, enabled in
+            health.setStandalone(enabled)
         }
         .onReceive(ticker) { now = $0 }
     }

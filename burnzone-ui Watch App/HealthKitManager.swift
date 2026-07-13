@@ -65,13 +65,14 @@ final class HealthKitManager: NSObject, ObservableObject {
             authorizationRequested = true
             return
         }
-        let toShare: Set<HKSampleType> = [HKQuantityType.workoutType(), heartRateType]
+        // Read-only by default; workout-share is requested lazily, only if the
+        // user turns on the standalone "Live HR when open" setting.
         let toRead: Set<HKObjectType> = [
             heartRateType,
             restingType,
             HKCharacteristicType(.dateOfBirth),
         ]
-        healthStore.requestAuthorization(toShare: toShare, read: toRead) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: toRead) { [weak self] success, _ in
             Task { @MainActor in
                 guard let self else { return }
                 self.authorizationRequested = true
@@ -80,22 +81,38 @@ final class HealthKitManager: NSObject, ObservableObject {
                 self.loadAge()
                 self.loadRestingHeartRate()
                 self.startHeartRateQuery()
-                self.scheduleHybridCheck()
             }
         }
     }
 
     // MARK: - App lifecycle (called from the view's scenePhase)
 
-    func onBecameActive() {
+    /// `standalone` mirrors the user's "Live HR when open" setting.
+    func onBecameActive(standalone: Bool) {
         guard isReady else { return }
         startHeartRateQuery()
-        scheduleHybridCheck()
+        if standalone {
+            scheduleHybridCheck()
+        } else {
+            hybridTask?.cancel()
+            stopOwnSession()
+        }
     }
 
     func onResignedActive() {
         hybridTask?.cancel()
         stopOwnSession()
+    }
+
+    /// React to the setting being toggled while the app is open.
+    func setStandalone(_ enabled: Bool) {
+        guard isReady else { return }
+        if enabled {
+            scheduleHybridCheck()
+        } else {
+            hybridTask?.cancel()
+            stopOwnSession()
+        }
     }
 
     /// After a short grace period, start our own session unless fresh external
@@ -186,6 +203,19 @@ final class HealthKitManager: NSObject, ObservableObject {
     // MARK: - Our own session (standalone use)
 
     private func startOwnSession() {
+        guard !runningOwnSession, session == nil, healthDataAvailable else { return }
+        // Ask for workout-share only now — users who never enable standalone
+        // mode are never prompted for write access.
+        let share: Set<HKSampleType> = [HKQuantityType.workoutType(), heartRateType]
+        healthStore.requestAuthorization(toShare: share, read: []) { [weak self] success, _ in
+            Task { @MainActor in
+                guard let self, success else { return }
+                self.beginOwnSession()
+            }
+        }
+    }
+
+    private func beginOwnSession() {
         guard !runningOwnSession, session == nil, healthDataAvailable else { return }
 
         let config = HKWorkoutConfiguration()
