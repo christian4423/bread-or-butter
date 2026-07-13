@@ -10,9 +10,9 @@ Bread or Butter
 Your fat-vs-carb fuel gauge
 
 ## Promotional text (max 170 — editable anytime without review)
-Bread or butter — which are you burning? This watch app turns your live heart
-rate into a playful fat-vs-carb fuel gauge. Ease off for butter, push hard for
-bread.
+See if you're burning butter or bread. Bread or Butter turns live heart rate
+into a fun fat-vs-carb fuel gauge on your wrist — ease off for butter, push hard
+for bread.
 
 ## Keywords (max 100, comma-separated, no spaces needed)
 heart rate,fat burn,carbs,fuel,zone,cardio,workout,burn,butter,bread,HRR,fitness
