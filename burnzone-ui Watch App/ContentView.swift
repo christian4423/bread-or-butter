@@ -117,9 +117,14 @@ struct ContentView: View {
             .padding(.horizontal, 6)
 
             VStack(spacing: 1) {
-                if let bpm = health.heartRate {
-                    Text("\(Int(bpm.rounded())) BPM · Zone \(zone ?? 1)")
+                if let effort = effortHR {
+                    Text("\(Int(effort.rounded())) BPM · Zone \(zone ?? 1)")
                         .font(.footnote.weight(.medium))
+                }
+                if medOffsetEnabled, let measured = health.heartRate {
+                    Text("measured \(Int(measured.rounded())) · −\(Int(medOffset)) 💊")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.secondary)
                 }
                 Text("estimate, not medical")
                     .font(.system(size: 9))
