@@ -9,24 +9,14 @@ explains what data the app uses and how it is handled.
 ## Data the app reads
 
 With your permission, Bread & Butter reads the following from Apple Health
-(HealthKit):
+(HealthKit), **read‑only**:
 
 - **Heart rate** — to show your current effort and fuel mix.
 - **Resting heart rate** — to estimate your heart‑rate zones.
 - **Date of birth** — to estimate your maximum heart rate (220 − age).
 
-## Live heart rate while the app is open (optional)
-
-By default the app reads heart rate only while a workout is recording. If you
-turn on **"Live HR when open"** in Settings, Bread & Butter will start a brief
-heart‑rate session (a HealthKit workout session) to turn on the watch's sensor
-so it works without a separate workout. If Apple's Workout app is already
-recording, the app uses those readings instead and does not start its own
-session. Any session the app starts is **discarded when you leave the app** — it
-is **not saved** as a workout and does not appear in Fitness. Like any workout
-session, while it is active the watch does credit exercise minutes and active
-energy to your Activity rings. This is the only case in which the app requests
-write access, and only to start that session.
+The app reads live heart rate while a workout is recording (for example, in
+Apple's Workout app). It does **not** write any data to Apple Health.
 
 ## How your data is used
 

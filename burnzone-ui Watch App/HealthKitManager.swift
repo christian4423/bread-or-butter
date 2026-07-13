@@ -2,17 +2,14 @@
 //  HealthKitManager.swift
 //  burnzone-ui Watch App
 //
-//  Sources live heart rate two ways, preferring whichever is already available:
+//  Observes live heart rate from HealthKit WITHOUT starting a workout session.
+//  The user runs a workout (Apple's Workout app, or any app that records HR),
+//  which writes frequent HR samples; we watch those with a long-lived
+//  HKAnchoredObjectQuery and always surface the most recent sample.
 //
-//  1. If Apple's Workout app (or anything else) is already recording, we simply
-//     read its fresh HR samples with a long-lived HKAnchoredObjectQuery.
-//  2. Otherwise, so the app works whenever it is open, we start our OWN
-//     lightweight HKWorkoutSession to turn on the sensor. That session is never
-//     saved as a workout — it is discarded when the app is backgrounded.
-//
-//  This "hybrid" keeps the companion-to-Workout behavior while adding standalone
-//  use, and avoids running two sessions at once (we defer to a live external
-//  source when its samples are fresh).
+//  (A session-free standalone mode — reading a Bluetooth strap directly over
+//  CoreBluetooth — is planned for a future version. Running our own workout
+//  session was intentionally dropped because it inflates Activity rings.)
 //
 
 import Foundation
@@ -20,7 +17,7 @@ import HealthKit
 import Combine
 
 @MainActor
-final class HealthKitManager: NSObject, ObservableObject {
+final class HealthKitManager: ObservableObject {
 
     /// Most recent heart-rate reading (bpm) and when it was taken.
     @Published private(set) var heartRate: Double?
@@ -30,9 +27,6 @@ final class HealthKitManager: NSObject, ObservableObject {
     @Published private(set) var restingHeartRate: Double?
     @Published private(set) var age: Int?
 
-    /// True while we are driving our own session (vs. reading an external one).
-    @Published private(set) var runningOwnSession = false
-
     @Published private(set) var authorizationRequested = false
     let healthDataAvailable = HKHealthStore.isHealthDataAvailable()
 
@@ -40,15 +34,6 @@ final class HealthKitManager: NSObject, ObservableObject {
     private let heartRateType = HKQuantityType(.heartRate)
     private let restingType = HKQuantityType(.restingHeartRate)
     private var runningQuery: HKAnchoredObjectQuery?
-
-    private var session: HKWorkoutSession?
-    private var builder: HKLiveWorkoutBuilder?
-    private var hybridTask: Task<Void, Never>?
-    private var isReady = false
-
-    /// If a sample newer than this arrives, we assume an external workout is live
-    /// and do not start our own session.
-    private let externalFreshWindow: TimeInterval = 15
 
     private var bpmUnit: HKUnit { HKUnit.count().unitDivided(by: .minute()) }
 
@@ -58,15 +43,11 @@ final class HealthKitManager: NSObject, ObservableObject {
         return now.timeIntervalSince(sampleDate) > 60
     }
 
-    // MARK: - Authorization
-
     func requestAuthorization() {
         guard healthDataAvailable else {
             authorizationRequested = true
             return
         }
-        // Read-only by default; workout-share is requested lazily, only if the
-        // user turns on the standalone "Live HR when open" setting.
         let toRead: Set<HKObjectType> = [
             heartRateType,
             restingType,
@@ -77,55 +58,10 @@ final class HealthKitManager: NSObject, ObservableObject {
             Task { @MainActor in
                 self.authorizationRequested = true
                 guard success else { return }
-                self.isReady = true
                 self.loadAge()
                 self.loadRestingHeartRate()
                 self.startHeartRateQuery()
             }
-        }
-    }
-
-    // MARK: - App lifecycle (called from the view's scenePhase)
-
-    /// `standalone` mirrors the user's "Live HR when open" setting.
-    func onBecameActive(standalone: Bool) {
-        guard isReady else { return }
-        startHeartRateQuery()
-        if standalone {
-            scheduleHybridCheck()
-        } else {
-            hybridTask?.cancel()
-            stopOwnSession()
-        }
-    }
-
-    func onResignedActive() {
-        hybridTask?.cancel()
-        stopOwnSession()
-    }
-
-    /// React to the setting being toggled while the app is open.
-    func setStandalone(_ enabled: Bool) {
-        guard isReady else { return }
-        if enabled {
-            scheduleHybridCheck()
-        } else {
-            hybridTask?.cancel()
-            stopOwnSession()
-        }
-    }
-
-    /// After a short grace period, start our own session unless fresh external
-    /// samples are already arriving.
-    private func scheduleHybridCheck() {
-        hybridTask?.cancel()
-        hybridTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
-            guard !Task.isCancelled, !runningOwnSession else { return }
-            if let sampleDate, Date().timeIntervalSince(sampleDate) < externalFreshWindow {
-                return // an external source is live — defer to it
-            }
-            startOwnSession()
         }
     }
 
@@ -155,7 +91,7 @@ final class HealthKitManager: NSObject, ObservableObject {
         healthStore.execute(query)
     }
 
-    // MARK: - Reading live samples (external or our own)
+    // MARK: - Live heart rate
 
     private func startHeartRateQuery() {
         guard runningQuery == nil else { return }
@@ -199,94 +135,5 @@ final class HealthKitManager: NSObject, ObservableObject {
         if let current = sampleDate, current > date { return }
         heartRate = bpm
         sampleDate = date
-    }
-
-    // MARK: - Our own session (standalone use)
-
-    private func startOwnSession() {
-        guard !runningOwnSession, session == nil, healthDataAvailable else { return }
-        // Ask for workout-share only now — users who never enable standalone
-        // mode are never prompted for write access.
-        let share: Set<HKSampleType> = [HKQuantityType.workoutType(), heartRateType]
-        healthStore.requestAuthorization(toShare: share, read: []) { [weak self] success, _ in
-            guard let self, success else { return }
-            Task { @MainActor in self.beginOwnSession() }
-        }
-    }
-
-    private func beginOwnSession() {
-        guard !runningOwnSession, session == nil, healthDataAvailable else { return }
-
-        let config = HKWorkoutConfiguration()
-        config.activityType = .other
-        config.locationType = .unknown
-
-        do {
-            let session = try HKWorkoutSession(healthStore: healthStore, configuration: config)
-            let builder = session.associatedWorkoutBuilder()
-            builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: config)
-            session.delegate = self
-            builder.delegate = self
-
-            let start = Date()
-            session.startActivity(with: start)
-            builder.beginCollection(withStart: start) { _, _ in }
-
-            self.session = session
-            self.builder = builder
-            self.runningOwnSession = true
-        } catch {
-            runningOwnSession = false
-        }
-    }
-
-    private func stopOwnSession() {
-        guard let session else { return }
-        session.end() // delegate fires .ended, where we discard + clean up
-    }
-
-    private func finalizeOwnSession() {
-        builder?.discardWorkout()
-        builder = nil
-        session = nil
-        runningOwnSession = false
-    }
-}
-
-// MARK: - Session & live-builder delegates
-
-extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
-
-    nonisolated func workoutSession(
-        _ workoutSession: HKWorkoutSession,
-        didChangeTo toState: HKWorkoutSessionState,
-        from fromState: HKWorkoutSessionState,
-        date: Date
-    ) {
-        guard toState == .ended else { return }
-        Task { @MainActor in self.finalizeOwnSession() }
-    }
-
-    nonisolated func workoutSession(
-        _ workoutSession: HKWorkoutSession,
-        didFailWithError error: Error
-    ) {
-        Task { @MainActor in self.finalizeOwnSession() }
-    }
-
-    nonisolated func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {}
-
-    nonisolated func workoutBuilder(
-        _ workoutBuilder: HKLiveWorkoutBuilder,
-        didCollectDataOf collectedTypes: Set<HKSampleType>
-    ) {
-        let hrType = HKQuantityType(.heartRate)
-        guard collectedTypes.contains(hrType),
-              let stats = workoutBuilder.statistics(for: hrType),
-              let quantity = stats.mostRecentQuantity()
-        else { return }
-        let bpm = quantity.doubleValue(for: HKUnit.count().unitDivided(by: .minute()))
-        let date = stats.mostRecentQuantityDateInterval()?.end ?? Date()
-        Task { @MainActor in self.ingest(bpm: bpm, date: date) }
     }
 }
