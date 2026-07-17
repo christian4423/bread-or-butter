@@ -1,0 +1,6 @@
+cd ~/Desktop/Apps/burnzone-ui
+ISSUER=$(grep -oE '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}' docs/issue-key-id.json | head -1)
+echo "Using issuer: $ISSUER"
+printf '%s' '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>method</key><string>app-store</string><key>teamID</key><string>442ZGJTQRG</string><key>signingStyle</key><string>automatic</string><key>destination</key><string>upload</string></dict></plist>' > /tmp/as.plist
+xcodebuild -exportArchive -archivePath /tmp/bob-clean.xcarchive -exportPath /tmp/bob-out -exportOptionsPlist /tmp/as.plist -allowProvisioningUpdates -authenticationKeyPath "$PWD/docs/AuthKey_Y5HLY6A739.p8" -authenticationKeyID Y5HLY6A739 -authenticationKeyIssuerID "$ISSUER" -IDEDistributionLogDirectory /tmp/dlogs 2>&1 | tail -25
+echo "===== detailed log ====="; find /tmp/dlogs -name "IDEDistribution.standard.log" -exec tail -60 {} \;

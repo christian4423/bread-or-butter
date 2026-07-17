@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BBA0000000000000000000AD /* burnzone-ui Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 288ECC2D300039DE00C33A72 /* burnzone-ui Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		288ECC3B300039E000C33A72 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +25,34 @@
 			remoteGlobalIDString = 288ECC2C300039DE00C33A72;
 			remoteInfo = "burnzone-ui Watch App";
 		};
+		BBA0000000000000000000AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 288ECC25300039DE00C33A72 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 288ECC2C300039DE00C33A72;
+			remoteInfo = "burnzone-ui Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BBA0000000000000000000A6 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				BBA0000000000000000000AD /* burnzone-ui Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		288ECC2D300039DE00C33A72 /* burnzone-ui Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "burnzone-ui Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		288ECC3A300039E000C33A72 /* burnzone-ui Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "burnzone-ui Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		288ECC44300039E000C33A72 /* burnzone-ui Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "burnzone-ui Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBA0000000000000000000A1 /* Bread or Butter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bread or Butter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -43,6 +69,11 @@
 		288ECC47300039E000C33A72 /* burnzone-ui Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "burnzone-ui Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		BBA0000000000000000000A2 /* Bread or Butter iOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Bread or Butter iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,12 +100,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBA0000000000000000000A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		288ECC24300039DE00C33A72 = {
 			isa = PBXGroup;
 			children = (
+				BBA0000000000000000000A2 /* Bread or Butter iOS */,
 				288ECC2F300039DE00C33A72 /* burnzone-ui Watch App */,
 				288ECC3D300039E000C33A72 /* burnzone-ui Watch AppTests */,
 				288ECC47300039E000C33A72 /* burnzone-ui Watch AppUITests */,
@@ -85,6 +124,7 @@
 		288ECC2E300039DE00C33A72 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				BBA0000000000000000000A1 /* Bread or Butter.app */,
 				288ECC2D300039DE00C33A72 /* burnzone-ui Watch App.app */,
 				288ECC3A300039E000C33A72 /* burnzone-ui Watch AppTests.xctest */,
 				288ECC44300039E000C33A72 /* burnzone-ui Watch AppUITests.xctest */,
@@ -163,6 +203,30 @@
 			productReference = 288ECC44300039E000C33A72 /* burnzone-ui Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		BBA0000000000000000000A7 /* Bread or Butter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBA0000000000000000000A8 /* Build configuration list for PBXNativeTarget "Bread or Butter" */;
+			buildPhases = (
+				BBA0000000000000000000A3 /* Sources */,
+				BBA0000000000000000000A4 /* Frameworks */,
+				BBA0000000000000000000A5 /* Resources */,
+				BBA0000000000000000000A6 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBA0000000000000000000AB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BBA0000000000000000000A2 /* Bread or Butter iOS */,
+			);
+			name = "Bread or Butter";
+			packageProductDependencies = (
+			);
+			productName = "Bread or Butter";
+			productReference = BBA0000000000000000000A1 /* Bread or Butter.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +248,9 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = 288ECC2C300039DE00C33A72;
 					};
+					BBA0000000000000000000A7 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 				};
 			};
 			buildConfigurationList = 288ECC28300039DE00C33A72 /* Build configuration list for PBXProject "burnzone-ui" */;
@@ -200,6 +267,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				BBA0000000000000000000A7 /* Bread or Butter */,
 				288ECC2C300039DE00C33A72 /* burnzone-ui Watch App */,
 				288ECC39300039E000C33A72 /* burnzone-ui Watch AppTests */,
 				288ECC43300039E000C33A72 /* burnzone-ui Watch AppUITests */,
@@ -223,6 +291,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		288ECC42300039E000C33A72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBA0000000000000000000A5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +328,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBA0000000000000000000A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +347,11 @@
 			isa = PBXTargetDependency;
 			target = 288ECC2C300039DE00C33A72 /* burnzone-ui Watch App */;
 			targetProxy = 288ECC45300039E000C33A72 /* PBXContainerItemProxy */;
+		};
+		BBA0000000000000000000AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 288ECC2C300039DE00C33A72 /* burnzone-ui Watch App */;
+			targetProxy = BBA0000000000000000000AC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -408,7 +495,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matsoukis.bread-and-butter.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -443,7 +530,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matsoukis.bread-and-butter.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -548,6 +635,67 @@
 			};
 			name = Release;
 		};
+		BBA0000000000000000000A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 442ZGJTQRG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.matsoukis.bread-and-butter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		BBA0000000000000000000AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 442ZGJTQRG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.matsoukis.bread-and-butter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -583,6 +731,15 @@
 			buildConfigurations = (
 				288ECC55300039E000C33A72 /* Debug */,
 				288ECC56300039E000C33A72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBA0000000000000000000A8 /* Build configuration list for PBXNativeTarget "Bread or Butter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBA0000000000000000000A9 /* Debug */,
+				BBA0000000000000000000AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
