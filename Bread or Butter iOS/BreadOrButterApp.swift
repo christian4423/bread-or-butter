@@ -29,40 +29,52 @@ struct PhoneView: View {
                            startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
-                Spacer()
-
+            VStack(spacing: 22) {
                 Text("Bread or Butter")
                     .font(.largeTitle.bold())
+                    .padding(.top, 28)
 
-                FuelRatioBar(fatFraction: 0.62)
-                    .frame(height: 96)
-                    .padding(.horizontal, 28)
+                VStack(spacing: 10) {
+                    FuelRatioBar(fatFraction: 0.62)
+                        .frame(height: 120)
+                    HStack {
+                        Text("fat")
+                            .foregroundStyle(Color(red: 0.85, green: 0.62, blue: 0.12))
+                        Spacer()
+                        Text("carbs")
+                            .foregroundStyle(bread)
+                    }
+                    .font(.headline)
+                    .padding(.horizontal, 6)
+                }
+                .padding(.horizontal, 24)
 
-                VStack(spacing: 6) {
+                VStack(spacing: 10) {
                     Text("Are you burning butter or bread?")
-                        .font(.headline)
+                        .font(.title3.weight(.semibold))
                         .multilineTextAlignment(.center)
                     Text("As your heart rate rises, your body shifts from burning mostly fat (butter) to mostly carbs (bread). This app shows that live fuel mix as a playful gauge.")
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 28)
+                .padding(.top, 4)
 
                 Label("Open Bread or Butter on your Apple Watch during a workout to see it live.",
                       systemImage: "applewatch")
-                    .font(.footnote)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 28)
+                    .padding(.top, 4)
 
                 Spacer()
 
                 Text("Estimate, not medical advice.")
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 16)
             }
         }
     }
