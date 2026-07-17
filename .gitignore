@@ -4,8 +4,8 @@ docs/*.p8
 docs/issue-key-id.json
 docs/issuer-key-id.json
 
-# Local upload helper (throwaway)
-xcode-task2.sh
+# Local upload helpers (throwaway)
+xcode-task*.sh
 
 # Xcode
 build/
