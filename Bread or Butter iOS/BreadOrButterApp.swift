@@ -35,9 +35,9 @@ struct PhoneView: View {
                 Text("Bread or Butter")
                     .font(.largeTitle.bold())
 
-                gauge
-                    .frame(height: 84)
-                    .padding(.horizontal, 32)
+                FuelRatioBar(fatFraction: 0.62)
+                    .frame(height: 96)
+                    .padding(.horizontal, 28)
 
                 VStack(spacing: 6) {
                     Text("Are you burning butter or bread?")
@@ -67,28 +67,6 @@ struct PhoneView: View {
         }
     }
 
-    /// A static illustration of the butter/bread split with the knife divider.
-    private var gauge: some View {
-        GeometryReader { geo in
-            let w = geo.size.width
-            let h = geo.size.height
-            let seam = w * 0.6
-            ZStack(alignment: .leading) {
-                HStack(spacing: 0) {
-                    RoundedRectangle(cornerRadius: h * 0.14)
-                        .fill(butter)
-                        .frame(width: seam)
-                    Capsule()
-                        .fill(bread)
-                        .frame(width: w - seam)
-                }
-                Capsule()
-                    .fill(Color(white: 0.98))
-                    .frame(width: max(6, w * 0.03), height: h * 0.96)
-                    .position(x: seam, y: h / 2)
-            }
-        }
-    }
 }
 
 #Preview {
