@@ -486,7 +486,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Butter vs. Bread reads your heart rate, resting heart rate, and date of birth to estimate your heart-rate zones and fat/carb fuel mix.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.matsoukis.bread-and-butter";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -521,7 +521,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Bread or Butter";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Butter vs. Bread reads your heart rate, resting heart rate, and date of birth to estimate your heart-rate zones and fat/carb fuel mix.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.matsoukis.bread-and-butter";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
