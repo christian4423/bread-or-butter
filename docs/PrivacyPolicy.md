@@ -1,22 +1,24 @@
-# Privacy Policy — Bread & Butter
+# Privacy Policy — Bread or Butter
 
-_Effective date: July 11, 2026_
+_Effective date: July 20, 2026_
 
-Bread & Butter is a watchOS app that estimates your fat‑vs‑carbohydrate fuel
-mix and heart‑rate zone from your heart rate during a workout. This policy
-explains what data the app uses and how it is handled.
+Bread or Butter is an Apple Watch app with an iPhone companion. It estimates
+your fat‑vs‑carbohydrate fuel mix and heart‑rate zones from your heart rate.
+This policy explains what data the app uses and how it is handled.
 
 ## Data the app reads
 
-With your permission, Bread & Butter reads the following from Apple Health
-(HealthKit), **read‑only**:
+With your permission, Bread or Butter reads the following from Apple Health
+(HealthKit) on your Apple Watch and iPhone, **read‑only**:
 
 - **Heart rate** — to show your current effort and fuel mix.
 - **Resting heart rate** — to estimate your heart‑rate zones.
 - **Date of birth** — to estimate your maximum heart rate (220 − age).
 
-The app reads live heart rate while a workout is recording (for example, in
-Apple's Workout app). It does **not** write any data to Apple Health.
+On the Apple Watch, the app reads live heart rate while a workout is recording
+(for example, in Apple's Workout app). The iPhone companion reads your resting
+heart rate, most recent heart rate, and date of birth to show your heart‑rate
+zones. The app does **not** write any data to Apple Health.
 
 ## How your data is used
 
